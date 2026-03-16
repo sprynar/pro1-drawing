@@ -1,58 +1,39 @@
 package pro1.swingComponents;
 
-import pro1.utils.ColorUtils;
-
 import javax.swing.*;
 import java.awt.*;
 
 public class OptionsPanel extends JPanel {
     private final MainFrame parent;
-    JSlider rSLider;
-    JSlider gSLider;
-    JSlider bSLider;
+
     public OptionsPanel(MainFrame parent) {
         this.parent = parent;
         this.setBackground(Color.LIGHT_GRAY);
-        this.setPreferredSize(new Dimension(400, 0));
+        this.setPreferredSize(new Dimension(250, 0));
 
-        JButton barva = new JButton("Jiná náhodná barva");
-        barva.setPreferredSize(new Dimension(400, 50));
+        this.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
 
-        this.add(barva);
-        barva.addActionListener((e) -> {
-            this.parent.setColor(ColorUtils.randomColor());
-            this.parent.showExample();
-        });
+        this.add(new JLabel("Tloušťka čáry:"));
+        JSlider thicknessSlider = new JSlider(JSlider.HORIZONTAL, 1, 20, 10);
+        thicknessSlider.setPreferredSize(new Dimension(200, 50));
+        thicknessSlider.setBackground(Color.LIGHT_GRAY);
+        thicknessSlider.addChangeListener(e -> this.parent.setThickness(thicknessSlider.getValue()));
+        this.add(thicknessSlider);
 
-        this.rSLider = new JSlider(JSlider.HORIZONTAL, 0, 255, 0);
-        this.gSLider = new JSlider(JSlider.HORIZONTAL, 0, 255, 0);
-        this.bSLider = new JSlider(JSlider.HORIZONTAL, 0, 255, 0);
-        this.rSLider.setBackground(Color.RED);
-        this.gSLider.setBackground(Color.GREEN);
-        this.bSLider.setBackground(Color.BLUE);
-        this.rSLider.setSize(400,100);
-        this.gSLider.setSize(400,100);
-        this.bSLider.setSize(400,100);
-        this.rSLider.addChangeListener((e)->{
-            this.sliderChange();
-        });
-        this.gSLider.addChangeListener((e)->{
-            this.sliderChange();
-        });
-        this.bSLider.addChangeListener((e)->{
-            this.sliderChange();
-        });
+        JCheckBox colorCheckBox = new JCheckBox("Aktivní", true);
+        colorCheckBox.setBackground(Color.LIGHT_GRAY);
+        colorCheckBox.setPreferredSize(new Dimension(200, 30));
+        colorCheckBox.addActionListener(e -> this.parent.setRed(colorCheckBox.isSelected()));
+        this.add(colorCheckBox);
 
-        this.add(rSLider);
-        this.add(gSLider);
-        this.add(bSLider);
-    }
-    private void sliderChange() {
-        int r = rSLider.getValue();
-        int g = gSLider.getValue();
-        int b = bSLider.getValue();
-        Color selectedColor = new Color(r, g, b);
-        this.parent.setColor(String.format("#%02x%02x%02x", r, g, b));
-        this.parent.showExample();
+        JButton btnUndo = new JButton("Zpět");
+        btnUndo.setPreferredSize(new Dimension(200, 40));
+        btnUndo.addActionListener(e -> this.parent.undo());
+        this.add(btnUndo);
+
+        JButton btnReset = new JButton("Reset");
+        btnReset.setPreferredSize(new Dimension(200, 40));
+        btnReset.addActionListener(e -> this.parent.reset());
+        this.add(btnReset);
     }
 }

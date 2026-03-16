@@ -1,58 +1,56 @@
 package pro1.swingComponents;
 
-import pro1.Main;
-import pro1.drawingModel.*;
-import pro1.drawingModel.Rectangle;
-import pro1.utils.ColorUtils;
-
+import pro1.drawingModel.Polyline;
 import javax.swing.*;
-import javax.swing.text.html.Option;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Random;
 
 public class MainFrame extends JFrame {
     DisplayPanel displayPanel;
-    private int x;
-    private int y;
-    private String color = ColorUtils.randomColor();
+    private Polyline polyline = new Polyline(); // Nahrazuje staré proměnné stavu
 
     public MainFrame() {
-        this.setTitle("Petrův úžasný projekt");
+        java.util.Collections.list(UIManager.getDefaults().keys()).forEach(key -> { if (UIManager.get(key) instanceof javax.swing.plaf.FontUIResource) UIManager.put(key, new javax.swing.plaf.FontUIResource(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 20))); });
+        this.setTitle("Petrův úžasný projekt"); // Původní titulek
         this.setVisible(true);
         this.setSize(800, 800);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         this.displayPanel = new DisplayPanel();
+        this.displayPanel.setDrawable(polyline);
         this.add(this.displayPanel, BorderLayout.CENTER);
 
         OptionsPanel options = new OptionsPanel(this);
         this.add(options, BorderLayout.WEST);
 
         this.displayPanel.addMouseListener(new MouseAdapter() {
-
             @Override
-            //lambda výraz
             public void mousePressed(MouseEvent e) {
-                MainFrame.this.x = e.getX();
-                MainFrame.this.y = e.getY();
-                MainFrame.this.color = ColorUtils.randomColor();
-                MainFrame.this.showExample();
+                polyline.addPoint(e.getPoint());
+                displayPanel.repaint();
             }
         });
     }
-    public void showExample(){
-        MainFrame.this.displayPanel.setDrawable(MainFrame.this.example());
+
+    public void setThickness(int thickness) {
+        polyline.setThickness(thickness);
+        displayPanel.repaint();
     }
-    public void setColor(String color){
-        this.color = color;
+
+    public void setRed(boolean isRed) {
+        polyline.setRed(isRed);
+        displayPanel.repaint();
     }
-    private Drawable example() {
-        // var d1 = new Ellipse(0, 0, 150, 250, color);
-        var d2 = new Text(0, 0, color);
-        var d3 = new Line(0, 0,170,170,3, color);
-        return new Group(new Drawable[]{d2, d3}, this.x, y, 40, 1, 1);
+
+    public void undo() {
+        polyline.zpet();
+        displayPanel.repaint();
+    }
+
+    public void reset() {
+        polyline.reset();
+        displayPanel.repaint();
     }
 }

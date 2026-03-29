@@ -1,5 +1,6 @@
 ## Petr Špryňar
 # pro1-drawing
+## I2500452
 >### požadavky:
 >> - V řešení úkolu musí být stejné umístění souborů `pom.xml` a `Main.java` jako v projektu `drawing`. Řešení může vzniknout převzetím a upravením tohoto projektu.
 >> - Po spuštění třídy `Main` se zobrazí okno přes celou obrazovku.

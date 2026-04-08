@@ -13,3 +13,5 @@
 >> - V levém panelu je tlačítko „zpět“, kterým se z lomené čáry odstraní nejnovější úsek.
 >> - V levém panelu je tlačítko „reset“, kterým se vše odstraní a může se kreslit znovu.
 >> - Grafika nesmí zmizet při změně velikosti okna, při obnovení minimalizovaného okna a podobně.
+  
+Hodnocení: V pořádku  
